@@ -17,29 +17,30 @@ class UserDetailSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = [
+            'id',
             'username',
-            'email',
             'first_name',
             'last_name',
         ]
 
 
 class UserCreateSerializer(ModelSerializer):
-    email = EmailField(label='Email Address')
-    email2 = EmailField(label='Confirm Email')
+    # email = EmailField(label='Email Address')
+    # email2 = EmailField(label='Confirm Email')
 
     class Meta:
         model = User
         fields = [
             'username',
-            'email',
-            'email2',
             'password',
+            # 'first_name',
+            # 'last_name',
 
         ]
         extra_kwargs = {"password":
                             {"write_only": True}
                         }
+
 
     def validate(self, data):
         # email = data['email']
@@ -48,34 +49,15 @@ class UserCreateSerializer(ModelSerializer):
         #     raise ValidationError("This user has already registered.")
         return data
 
-    def validate_email(self, value):
-        data = self.get_initial()
-        email1 = data.get("email2")
-        email2 = value
-        if email1 != email2:
-            raise ValidationError("Emails must match.")
-
-        user_qs = User.objects.filter(email=email2)
-        if user_qs.exists():
-            raise ValidationError("This user has already registered.")
-
-        return value
-
-    def validate_email2(self, value):
-        data = self.get_initial()
-        email1 = data.get("email")
-        email2 = value
-        if email1 != email2:
-            raise ValidationError("Emails must match.")
-        return value
-
     def create(self, validated_data):
         username = validated_data['username']
-        email = validated_data['email']
+        # first_name = validated_data['first_name']
+        # last_name = validated_data['last_name']
         password = validated_data['password']
         user_obj = User(
             username=username,
-            email=email
+            # first_name=first_name,
+            # last_name=last_name,
         )
         user_obj.set_password(password)
         user_obj.save()

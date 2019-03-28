@@ -1,15 +1,10 @@
-from django.conf.urls import url, include
-from django.contrib.auth.models import User
-from rest_framework import routers, serializers, viewsets
-from rest_framework_jwt.views import obtain_jwt_token
-
-
+from django.urls import include, re_path,path
 
 
 
 
 urlpatterns = [
-    url(r'^api/users/', include(("apps.api.urls","api"), namespace='users-api')),
 
-    url(r'^api/auth/token/', obtain_jwt_token),
+    re_path(r'^api/', include(("apps.api.urls", "api"), namespace='api')),
 ]
+
