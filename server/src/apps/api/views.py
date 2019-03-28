@@ -1,6 +1,26 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
+from django.contrib.auth import get_user_model
+from rest_framework.generics import (
+    CreateAPIView,
+    ListAPIView,
+    UpdateAPIView,
+    RetrieveAPIView,
+    RetrieveUpdateAPIView
+    )
+from rest_framework.permissions import (
+    AllowAny,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
 
-from django.shortcuts import render
+    )
+User = get_user_model()
 
-# Create your views here.
+
+from .serializers import (
+    UserCreateSerializer,
+    )
+
+
+class UserCreateAPIView(CreateAPIView):
+    serializer_class = UserCreateSerializer
+    queryset = User.objects.all()
+    permission_classes = [AllowAny]
