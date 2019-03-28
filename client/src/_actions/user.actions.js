@@ -39,10 +39,11 @@ function logout() {
 }
 
 function register(user) {
+    debugger;
     return async dispatch => {
         dispatch(request(user));
         try {
-            const user = await userService.register(user);
+            const response = await userService.register(user);
 
             dispatch(success());
             history.push('/login');

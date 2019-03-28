@@ -11,16 +11,17 @@ export const userService = {
 };
 
 function login(username, password) {
-    debugger;
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password })
     };
 
-    return fetch(`http://localhost:4000/users/authenticate`, requestOptions)
+    return fetch(`http://127.0.0.1:8000/api/auth/token/`, requestOptions)
         .then(handleResponse)
-        .then(user => {
+        .then(response => {
+            var user = response.user;
+            user.token = response.token;
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('user', JSON.stringify(user));
 
@@ -39,7 +40,11 @@ function getAll() {
         headers: authHeader()
     };
 
-    return fetch(`http://localhost:4000/users`, requestOptions).then(handleResponse);
+    return fetch(`http://127.0.0.1:8000/api/users/`, requestOptions)
+        .then(handleResponse)
+        .then(response => {
+            return response.results;
+        });
 }
 
 function getById(id) {
@@ -48,7 +53,7 @@ function getById(id) {
         headers: authHeader()
     };
 
-    return fetch(`http://localhost:4000/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`http://127.0.0.1:8000/api/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function register(user) {
@@ -57,8 +62,8 @@ function register(user) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
     };
-
-    return fetch(`http://localhost:4000/users/register`, requestOptions).then(handleResponse);
+    debugger;
+    return fetch(`http://127.0.0.1:8000/api/register/`, requestOptions).then(handleResponse);
 }
 
 function update(user) {
@@ -68,7 +73,7 @@ function update(user) {
         body: JSON.stringify(user)
     };
 
-    return fetch(`http://localhost:4000/users/${user.id}`, requestOptions).then(handleResponse);;
+    return fetch(`http://127.0.0.1:8000/api/users/${user.id}`, requestOptions).then(handleResponse);;
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -77,13 +82,13 @@ function _delete(id) {
         method: 'DELETE',
         headers: authHeader()
     };
+    debugger;
 
-    return fetch(`http://localhost:4000/users/${id}`, requestOptions).then(handleResponse);
+    return fetch(`http://127.0.0.1:8000/api/users/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {
     return response.text().then(text => {
-        debugger;
         const data = text && JSON.parse(text);
         if (!response.ok) {
             if (response.status === 401) {
@@ -95,7 +100,6 @@ function handleResponse(response) {
             const error = (data && data.message) || response.statusText;
             return Promise.reject(error);
         }
-
         return data;
     });
 }
