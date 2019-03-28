@@ -1,0 +1,12 @@
+
+
+apps/api/__pycache__/
+apps/api/migrations/
+apps/api/migrations/__pycache__/
+apps/api/api/__pycache__/
+.idea/
+apps/__pycache__/
+apps/.DS_Store
+.DS_Store
+
+config/__pycache__/
