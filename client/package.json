@@ -1,0 +1,38 @@
+{
+    "name": "react-redux-registration-login-example",
+    "version": "1.0.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/cornflourblue/react-redux-registration-login-example.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "history": "^4.6.3",
+        "react": "^16.0.0",
+        "react-dom": "^16.0.0",
+        "react-redux": "^5.0.5",
+        "react-router-dom": "^4.1.2",
+        "react-scripts": "^2.1.8",
+        "redux": "^3.7.2",
+        "redux-logger": "^3.0.6",
+        "redux-thunk": "^2.2.0"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "devDependencies": {
+        "remote-redux-devtools": "^0.5.16"
+    }
+}
