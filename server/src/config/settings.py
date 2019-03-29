@@ -188,3 +188,8 @@ CORS_ALLOW_METHODS = (
     'POST',
     'PUT',
 )
+
+#Django REST Swagger Authentication
+
+LOGIN_URL = 'rest_framework:login'
+LOGOUT_URL = 'rest_framework:logout'

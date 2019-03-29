@@ -39,6 +39,8 @@ class UserListAPIView(ListAPIView):
     queryset = User.objects.all()
 
 
+
+
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
     queryset = User.objects.all()
