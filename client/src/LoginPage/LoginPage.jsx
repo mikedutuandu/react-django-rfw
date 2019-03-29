@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
+import FacebookLogin from 'react-facebook-login';
+
+import GoogleLogin from 'react-google-login';
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -37,9 +40,19 @@ class LoginPage extends React.Component {
         }
     }
 
+   responseFacebook = (response) => {
+        console.log(response);
+      }
+  
+   responseGoogle = (response) => {
+        console.log(response);
+    }
     render() {
         const { loggingIn } = this.props;
         const { username, password, submitted } = this.state;
+
+
+
         return (
             <div className="col-md-6 col-md-offset-3">
                 <h2>Login</h2>
@@ -66,6 +79,23 @@ class LoginPage extends React.Component {
                         <Link to="/register" className="btn btn-link">Register</Link>
                     </div>
                 </form>
+        
+
+<FacebookLogin
+  appId="2077902462466037" //APP ID NOT CREATED YET
+  fields="name,email,picture"
+  callback={this.responseFacebook}
+/>
+<br />
+<br />
+
+
+<GoogleLogin
+  clientId="879760660313-go9pbil7j5kepd84ghtbnith8dfgbdvc.apps.googleusercontent.com" //CLIENTID NOT CREATED YET
+  buttonText="LOGIN WITH GOOGLE"
+  onSuccess={this.responseGoogle}
+  onFailure={this.responseGoogle}
+/>
             </div>
         );
     }

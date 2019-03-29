@@ -43,7 +43,7 @@ function register(user) {
     return async dispatch => {
         dispatch(request(user));
         try {
-            const response = await userService.register(user);
+            await userService.register(user);
 
             dispatch(success());
             history.push('/login');
@@ -87,7 +87,7 @@ function _delete(id) {
     return async dispatch => {
         dispatch(request(id));
         try {
-            const user = await userService.delete(id);
+           await userService.delete(id);
             dispatch(success(id));
         } catch (error) {
             dispatch(failure(id, error.toString()))
