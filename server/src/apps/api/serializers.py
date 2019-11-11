@@ -1,6 +1,3 @@
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth import get_user_model
-
 from rest_framework.serializers import (
     CharField,
     EmailField,
@@ -10,7 +7,8 @@ from rest_framework.serializers import (
     ValidationError
 )
 
-User = get_user_model()
+from apps.api.models import User
+
 
 
 class UserDetailSerializer(ModelSerializer):
@@ -18,28 +16,60 @@ class UserDetailSerializer(ModelSerializer):
         model = User
         fields = [
             'id',
-            'username',
+            'email',
             'first_name',
             'last_name',
         ]
 
 
+class UserListSerializer(ModelSerializer):
+    avatar = SerializerMethodField()
+    avatar_thumb = SerializerMethodField()
+    class Meta:
+        model = User
+        fields = [
+            'id',
+            'driver_license',
+            'license_plate',
+            'vehicle_make',
+            'vehicle_model',
+            'vehicle_color',
+            'vehicle_year',
+            'avatar',
+            'avatar_thumb'
+        ]
+
+    def get_avatar(self, obj):
+        try:
+            avatar = obj.avatar.url
+        except:
+            avatar = None
+        return avatar
+    def get_avatar_thumb(self, obj):
+        try:
+            avatar_thumb = obj.avatar_thumb.url
+        except:
+            avatar_thumb = None
+        return avatar_thumb
+
 class UserCreateSerializer(ModelSerializer):
-    # email = EmailField(label='Email Address')
-    # email2 = EmailField(label='Confirm Email')
 
     class Meta:
         model = User
         fields = [
-            'username',
+            'email',
             'password',
-            # 'first_name',
-            # 'last_name',
+            'driver_license',
+            'license_plate',
+            'vehicle_make',
+            'vehicle_model',
+            'vehicle_color',
+            'vehicle_year',
+            'working_days',
+            'avatar',
 
         ]
-        extra_kwargs = {"password":
-                            {"write_only": True}
-                        }
+        extra_kwargs = {"password":{"write_only": True}}
 
 
     def validate(self, data):
@@ -47,19 +77,14 @@ class UserCreateSerializer(ModelSerializer):
         # user_qs = User.objects.filter(email=email)
         # if user_qs.exists():
         #     raise ValidationError("This user has already registered.")
+        data['username'] = data['email']
         return data
 
     def create(self, validated_data):
-        username = validated_data['username']
-        # first_name = validated_data['first_name']
-        # last_name = validated_data['last_name']
+        user_obj = super().create(validated_data)
         password = validated_data['password']
-        user_obj = User(
-            username=username,
-            # first_name=first_name,
-            # last_name=last_name,
-        )
         user_obj.set_password(password)
+        user_obj.is_driver = True
         user_obj.save()
-        return validated_data
+        return user_obj
 

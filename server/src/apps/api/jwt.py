@@ -8,7 +8,7 @@ from rest_framework_jwt.settings import api_settings
 def jwt_response_payload_handler(token, user=None, request=None):
     return {
         'token': token,
-        'user': UserDetailSerializer(user, context={'request': request}).data
+        # 'user': UserDetailSerializer(user, context={'request': request}).data
     }
 
 def create_jwt_token_from_user(user):

@@ -1,5 +1,5 @@
 """
-WSGI config for api project.
+WSGI config for ad project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

@@ -2,19 +2,20 @@
 from django.urls import include, re_path
 from django.contrib import admin
 from rest_framework_jwt.views import obtain_jwt_token
+from django.conf import settings
+from django.conf.urls.static import static
 
-from .views import (
-    UserCreateAPIView,
-    UserListAPIView,
-UserDeleteAPIView
-    )
+from django.urls import include, re_path, path
+
+
+from .views import (DriverList)
 
 urlpatterns = [
-    re_path(r'^auth/token/$', obtain_jwt_token, name='get-jwt-token'),
+    re_path(r'^auth/token$', obtain_jwt_token, name='get-jwt-token'),
 
-    re_path(r'^register/$', UserCreateAPIView.as_view(), name='register'),
+    re_path(r'^drivers$', DriverList.as_view(), name='driver_list'),
 
-    re_path(r'^users/$', UserListAPIView.as_view(), name='list'),
-    re_path(r'^users/(?P<pk>\d+)$', UserDeleteAPIView.as_view(), name='delete'),
 
 ]
+
+
